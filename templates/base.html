@@ -66,7 +66,6 @@
         const BUBBLE_COUNT = 25;
         const BUBBLE_SIZE_MIN = 10;
         const BUBBLE_SIZE_MAX = 25;
-        const BUBBLE_STAGGER_DURATION = 2;
         const BUBBLE_RISE_DURATION_MIN = 5;
         const BUBBLE_RISE_DURATION_MAX = 7;
         const BUBBLE_SWAY_DURATION_MIN = 3;
@@ -114,12 +113,13 @@
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.left = Math.random() * 100 + '%';
-            // Start bubbles at different heights for immediate visual effect
-            const startDelay = (i / count) * BUBBLE_STAGGER_DURATION;
-            const swayDelay = Math.random() * (BUBBLE_SWAY_DURATION_MAX - BUBBLE_SWAY_DURATION_MIN);
-            bubble.style.animationDelay = startDelay + 's, ' + swayDelay + 's';
             const riseDuration = Math.random() * (BUBBLE_RISE_DURATION_MAX - BUBBLE_RISE_DURATION_MIN) + BUBBLE_RISE_DURATION_MIN;
             const swayDuration = Math.random() * (BUBBLE_SWAY_DURATION_MAX - BUBBLE_SWAY_DURATION_MIN) + BUBBLE_SWAY_DURATION_MIN;
+            // Use negative delays to start bubbles mid-animation (already rising) for immediate smooth motion
+            // Randomize across full animation duration for constant flow instead of waves
+            const riseDelay = -Math.random() * riseDuration;
+            const swayDelay = -Math.random() * swayDuration;
+            bubble.style.animationDelay = riseDelay + 's, ' + swayDelay + 's';
             bubble.style.animationDuration = riseDuration + 's, ' + swayDuration + 's';
             container.appendChild(bubble);
             bubbles.push(bubble);
